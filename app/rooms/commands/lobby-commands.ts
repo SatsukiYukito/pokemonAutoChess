@@ -1041,6 +1041,8 @@ export class OpenSpecialGameCommand extends Command<
       }
     } else if (gameMode === GameMode.SCRIBBLE) {
       roomName = "Smeargle's Scribble"
+    } else if (gameMode === GameMode.BOTTOURNAMENT) {
+      roomName = "Bot Tournament"
     }
 
     matchMaker.createRoom("preparation", {

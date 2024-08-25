@@ -512,6 +512,16 @@ export default class GameRoom extends Room<GameState> {
         }
       }
     })
+    if (this.GameMode === GameMode.BOTTOURNAMENT) {
+      this.state.players.forEach((p) => {
+        if (!p.isBot) {
+          this.dispatcher.dispatch(new OnSpectateCommand(), {
+            id: client.auth.uid,
+            spectatedPlayerId
+          })
+        }
+      })
+    }
   }
 
   async onAuth(client: Client, options, request) {

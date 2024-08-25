@@ -23,6 +23,7 @@ import {
   OnRoomNameCommand,
   OnRoomPasswordCommand,
   OnToggleEloCommand,
+  OnToggleBotTournamentCommand,
   OnToggleReadyCommand,
   RemoveMessageCommand
 } from "./commands/preparation-commands"
@@ -56,6 +57,13 @@ export default class PreparationRoom extends Room<PreparationState> {
   async toggleElo(noElo: boolean) {
     await this.setMetadata(<IPreparationMetadata>{
       noElo: noElo
+    })
+    updateLobby(this)
+  }
+  
+  async toggleBotTournament(gameMode: GameMode) {
+    await this.setMetadata(<IPreparationMetadata>{
+      gameMode: GameMode.BOTTOURNAMENT
     })
     updateLobby(this)
   }
@@ -213,6 +221,15 @@ export default class PreparationRoom extends Room<PreparationState> {
       logger.info(Transfer.TOGGLE_NO_ELO, this.roomName)
       try {
         this.dispatcher.dispatch(new OnToggleEloCommand(), { client, message })
+      } catch (error) {
+        logger.error(error)
+      }
+    })
+
+    this.onMessage(Transfer.TOGGLE_BOTTOURNAMENT, (client, message) => {
+      logger.info(Transfer.TOGGLE_BOTTOURNAMENT, this.roomName)
+      try {
+        this.dispatcher.dispatch(new OnToggleBotTournamentCommand(), { client, message })
       } catch (error) {
         logger.error(error)
       }

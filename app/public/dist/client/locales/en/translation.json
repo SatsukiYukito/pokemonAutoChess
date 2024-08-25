@@ -2557,6 +2557,7 @@
   "no_elo": "No Elo",
   "enable_elo": "Enable Elo",
   "disable_elo": "Disable Elo",
+  "set_bottournament": "Set bot tournament",
   "enable_elo_hint": "Enable Elo gain or loss for this game",
   "disable_elo_hint": "Disable Elo gain or loss for this game",
   "minimum_rank": "Minimum rank",

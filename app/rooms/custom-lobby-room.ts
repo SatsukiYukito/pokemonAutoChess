@@ -19,6 +19,7 @@ import { Emotion, IPlayer, Role, Title, Transfer } from "../types"
 import {
   GREATBALL_RANKED_LOBBY_CRON,
   SCRIBBLE_LOBBY_CRON,
+  BOTTOURNAMENT_LOBBY_CRON,
   TOURNAMENT_CLEANUP_DELAY,
   TOURNAMENT_REGISTRATION_TIME,
   ULTRABALL_RANKED_LOBBY_CRON
@@ -612,6 +613,18 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
       start: true
     })
     this.cleanUpCronJobs.push(scribbleLobbyJob)
+
+    const botTournamentLobbyJob = CronJob.from({
+      cronTime: BOTTOURNAMENT_LOBBY_CRON,
+      timeZone: "Europe/Paris",
+      onTick: () => {
+        this.dispatcher.dispatch(new OpenSpecialGameCommand(), {
+          gameMode: GameMode.BOTTOURNAMENT
+        })
+      },
+      start: true
+    })
+    this.cleanUpCronJobs.push(botTournamentLobbyJob)
 
     if (process.env.NODE_APP_INSTANCE) {
       const staleJob = CronJob.from({

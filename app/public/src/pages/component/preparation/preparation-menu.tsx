@@ -18,6 +18,7 @@ import {
   deleteRoom,
   gameStartRequest,
   toggleEloRoom,
+  toggleBotTournament,
   toggleReady
 } from "../../../stores/NetworkStore"
 import { cc } from "../../utils/jsx"
@@ -104,6 +105,13 @@ export default function PreparationMenu() {
   function toggleElo() {
     dispatch(toggleEloRoom(!noElo))
   }
+  function toggleBotTournament() {
+    if (gameMode !== GameMode.BOTTOURNAMENT) {
+      dispatch(toggleBotTournament())
+    } else {
+      return
+    }
+  }
 
   const startGame = throttle(async function startGame() {
     if (room) {
@@ -140,7 +148,17 @@ export default function PreparationMenu() {
           {t("smeargle_scribble_hint")}
         </p>
       )}
-
+     {gameMode === GameMode.BOTTOURNAMENT && (
+        <p>
+          <img
+            alt={t("smeargle_scribble")}
+            title={t("smeargle_scribble_hint")}
+            className="scribble icon"
+            src={"/assets/ui/scribble.png"}
+          />
+          {t("smeargle_scribble_hint")}
+        </p>
+      )}
       {gameMode === GameMode.QUICKPLAY && (
         <p>
           <img
@@ -200,6 +218,16 @@ export default function PreparationMenu() {
         title={noElo ? t("enable_elo_hint") : t("disable_elo_hint")}
       >
         {noElo ? t("enable_elo") : t("disable_elo")}
+      </button>
+    )
+
+  const botTournamentButton = gameMode === GameMode.NORMAL &&
+    (isOwner || isAdmin) && (
+      <button
+        className="bubbly blue"
+        onClick={toggleBotTournament}
+      >
+        {t("set_bottournament")}
       </button>
     )
 
@@ -326,6 +354,7 @@ export default function PreparationMenu() {
         <div className="spacer"></div>
         {roomPrivateButton}
         {roomEloButton}
+        {botTournamentButton}
       </div>
 
       <div className="actions">

@@ -379,6 +379,28 @@ export class OnToggleEloCommand extends Command<
     }
   }
 }
+export class OnToggleBotTournamentCommand extends Command<
+  PreparationRoom,
+  {
+    client: Client
+    message: boolean
+  }
+> {
+  execute({ client, message: botTournament }) {
+    try {
+      this.room.toggleBotTournament()
+      const leader = this.state.users.get(client.auth.uid)
+      this.room.state.addMessage({
+        author: "Server",
+        authorId: "server",
+        payload: "Set to bot tournament, all human players will spectate",
+        avatar: leader?.avatar
+      })
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+}
 
 export class OnKickPlayerCommand extends Command<
   PreparationRoom,

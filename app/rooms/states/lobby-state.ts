@@ -17,7 +17,8 @@ import tournament from "../../models/mongo-models/tournament"
 import {
   GREATBALL_RANKED_LOBBY_CRON,
   SCRIBBLE_LOBBY_CRON,
-  ULTRABALL_RANKED_LOBBY_CRON
+  ULTRABALL_RANKED_LOBBY_CRON,
+  BOTTOURNAMENT_LOBBY_CRON
 } from "../../types/Config"
 import { EloRank } from "../../types/enum/EloRank"
 import { GameMode } from "../../types/enum/Game"
@@ -91,6 +92,7 @@ export default class LobbyState extends Schema {
     const nextGreatballRanked = getNextDate(GREATBALL_RANKED_LOBBY_CRON)
     const nextUltraballRanked = getNextDate(ULTRABALL_RANKED_LOBBY_CRON)
     const nextScribble = getNextDate(SCRIBBLE_LOBBY_CRON)
+    const nextBotTournament = getNextDate(BOTTOURNAMENT_LOBBY_CRON)
     const nextSpecialGameDateInt = Math.min(
       nextGreatballRanked,
       nextUltraballRanked,
