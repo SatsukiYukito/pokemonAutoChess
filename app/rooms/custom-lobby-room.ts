@@ -59,6 +59,7 @@ import {
   SelectLanguageCommand,
   UnbanUserCommand
 } from "./commands/lobby-commands"
+import { OnAddBotCommand } from "./commands/preparation-commands"
 import LobbyState from "./states/lobby-state"
 
 const MAX_CCU = 700
@@ -231,6 +232,10 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
     this.onMessage(
       Transfer.PARTICIPATE_TOURNAMENT,
       (client, message: { tournamentId: string; participate: boolean }) => {
+        this.dispatcher.dispatch(new OnAddBotCommand(), {
+          type: BotDifficulty.MEDIUM,
+          user: user
+        })
         this.dispatcher.dispatch(new ParticipateInTournamentCommand(), {
           client,
           tournamentId: message.tournamentId,

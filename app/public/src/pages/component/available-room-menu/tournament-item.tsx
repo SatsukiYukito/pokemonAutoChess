@@ -4,10 +4,13 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs"
 import { useAppDispatch, useAppSelector } from "../../../hooks"
 import { formatDate } from "../../utils/date"
 import { participateInTournament } from "../../../stores/NetworkStore"
+import { addBot } from "../../../stores/NetworkStore"
 import { getAvatarSrc } from "../../../utils"
 import { EloBadge } from "../profile/elo-badge"
 import { getTournamentStage } from "../../../../../core/tournament-logic"
 import { entries, values } from "../../../../../utils/schemas"
+import { BotV2, IBot } from "../../models/mongo-models/bot-v2"
+import { BotDifficulty, GameMode } from "../../types/enum/Game"
 import {
   TournamentPlayerSchema,
   TournamentSchema
@@ -104,6 +107,18 @@ export default function TournamentItem(props: {
               {t("participate")}
             </button>
           ) : null}
+          <button
+              className="participate-btn bubbly green"
+              onClick={() => {
+                dispatch(new OnAddBotCommand(), {
+                        type: botType,
+                        user: user
+                      })
+                  }
+                }
+              >
+               {t("add bot")}
+            </button>
         </div>
       )}
       <Tabs>
